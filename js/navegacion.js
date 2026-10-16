@@ -51,18 +51,20 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Marcar la página activa
-    const paginaActual = window.location.pathname.split("/").pop();
+        // Marcar la página activa de forma segura para GitHub Pages
+    const rutaActual = window.location.pathname;
 
     document.querySelectorAll(".menu a").forEach(function (enlace) {
-        const destino = enlace.getAttribute("href").split("/").pop();
+        const destino = enlace.getAttribute("href");
 
-        if (destino === paginaActual) {
+        // Verifica si la URL actual termina con el destino del enlace
+        if (rutaActual.endsWith(destino) || (destino === "index.html" && (rutaActual.endsWith("/") || rutaActual.endsWith("index.html")))) {
             enlace.classList.add("activo");
         } else {
             enlace.classList.remove("activo");
         }
     });
+    
 
 });
 
