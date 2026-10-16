@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "papeleria-v1";
+const CACHE_NAME = "papeleria-v2";
 
 const ARCHIVOS_BASE = [
     "./",
