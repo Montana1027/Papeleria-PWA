@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    
+<head>
+    
+<script>
+    (function () {
+        if (localStorage.getItem("modoOscuro") === "true") {
+            document.documentElement.classList.add("modo-oscuro");
+        }
+    })();
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos faltantes | Mi Papelería</title>
+    <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#7C3AED">
+    <link rel="stylesheet" href="../css/estilos.css">
+
+    <style>
+        .faltantes-resumen {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .faltantes-resumen .tarjeta h2 {
+            font-size: 24px;
+            overflow-wrap: anywhere;
+        }
+
+        .mensaje-faltantes {
+            text-align: center;
+            padding: 20px;
+            color: var(--gris);
+            font-size: 13px;
+        }
+
+        .tabla-faltantes {
+            min-width: 750px;
+        }
+
+        @media (max-width: 1000px) {
+            .faltantes-resumen {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 500px) {
+            .faltantes-resumen {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            .sidebar,
+            .encabezado-derecha,
+            .menu-movil,
+            .barra-herramientas,
+            .panel-encabezado button,
+            .sidebar-pie {
+                display: none !important;
+            }
+
+            .app {
+                display: block !important;
+            }
+
+            .contenido {
+                width: 100% !important;
+                padding: 0 !important;
+            }
+
+            .tabla-faltantes {
+                min-width: 0;
+            }
+
+            body {
+                background: white !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">P</div>
+            <div>
+                <h2>Mi Papelería</h2>
+                <p>Panel de administración</p>
+            </div>
+        </div>
+
+        <p class="menu-titulo">MENÚ PRINCIPAL</p>
+
+        <nav class="menu">
+            <a href="../index.html"><span class="menu-icon">⌂</span> Inicio</a>
+            <a href="inventario.html"><span class="menu-icon">▤</span> Inventario</a>
+            <a href="ventas.html"><span class="menu-icon">＋</span> Registrar venta</a>
+            <a href="faltantes.html" class="activo"><span class="menu-icon">⚠</span> Productos faltantes</a>
+            <a href="historial.html"><span class="menu-icon">◷</span> Historial de ventas</a>
+            <a href="reportes.html"><span class="menu-icon">▥</span> Reportes</a>
+        </nav>
+
+        <div class="sidebar-pie">
+            <strong>Mi Papelería</strong>
+            <p>Administra tus productos y mantén tu negocio organizado.</p>
+        </div>
+    </aside>
+
+    <main class="contenido">
+
+        <header class="encabezado">
+            <div>
+                <button class="menu-movil" aria-label="Abrir menú">☰</button>
+                <h1 style="margin-top:10px;">Productos faltantes ⚠️</h1>
+                <p>Identifica los artículos que necesitas volver a comprar.</p>
+            </div>
+
+            <div class="encabezado-derecha">
+                <div class="fecha"></div>
+                <button class="boton-tema" id="botonTema" type="button"
+                    aria-label="Cambiar tema">🌙</button>
+            </div>
+        </header>
+
+        <section class="faltantes-resumen tarjetas">
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Por reabastecer</span>
+                    <div class="tarjeta-icono">⚠</div>
+                </div>
+                <h2 id="totalBajos">0</h2>
+                <small>Productos con stock bajo</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Agotados</span>
+                    <div class="tarjeta-icono">!</div>
+                </div>
+                <h2 id="totalAgotados">0</h2>
+                <small>Sin unidades disponibles</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Unidades sugeridas</span>
+                    <div class="tarjeta-icono">▤</div>
+                </div>
+                <h2 id="totalSugeridas">0</h2>
+                <small>Para alcanzar la meta de reposición</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Prioridad alta</span>
+                    <div class="tarjeta-icono">↑</div>
+                </div>
+                <h2 id="totalPrioridadAlta">0</h2>
+                <small>Productos agotados</small>
+            </article>
+
+        </section>
+
+        <section class="panel">
+            <div class="panel-encabezado">
+                <div>
+                    <h2>Lista de reabastecimiento</h2>
+                    <p>Productos que necesitan reposición según sus existencias.</p>
+                </div>
+
+                <button class="btn btn-morado" type="button"
+                    onclick="window.print()">⤓ Imprimir lista</button>
+            </div>
+
+            <div class="barra-herramientas">
+                <div class="campo-busqueda">
+                    <input id="buscarFaltante" type="search"
+                        placeholder="🔍 Buscar producto...">
+                </div>
+
+                <select id="filtroPrioridad" aria-label="Filtrar prioridad">
+                    <option value="">Todas las prioridades</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                </select>
+            </div>
+
+            <div class="tabla-contenedor">
+                <table class="tabla-faltantes">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th>Existencias</th>
+                            <th>Mínimo requerido</th>
+                            <th>Cantidad sugerida</th>
+                            <th>Prioridad</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="listaFaltantes">
+                        <tr>
+                            <td colspan="6" class="mensaje-faltantes">
+                                Cargando inventario...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr class="separador">
+
+            <p id="resumenFaltantes" class="texto-gris"
+                style="font-size:12px;">
+                Consultando productos...
+            </p>
+        </section>
+
+        <p class="texto-gris"
+            style="text-align:center;font-size:12px;padding:15px;">
+            Mi Papelería · Productos faltantes
+        </p>
+
+    </main>
+</div>
+
+<script src="../js/navegacion.js"></script>
+<script type="module" src="../js/proteger.js"></script>
+<script type="module" src="../js/faltantes.js"></script>
+</body>
+
+
+<body>
+
+</html>

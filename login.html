@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión | Papelería</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#7C3AED">
+<link rel="icon" type="image/png" href="./iconos/icon-192.png">
+    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f3f0ff;
+            font-family: Arial, sans-serif;
+        }
+
+        .login {
+            background: white;
+            width: 90%;
+            max-width: 380px;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px #00000015;
+            box-sizing: border-box;
+        }
+
+        .login h1 {
+            color: #7c3aed;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .login p {
+            text-align: center;
+            color: #666;
+        }
+
+        .login label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+        }
+
+        .login input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .login button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #7c3aed;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #mensaje {
+            margin-top: 15px;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+    </style>
+</head>
+<body>
+    <main class="login">
+        <h1>Papelería</h1>
+        <p>Inicia sesión para continuar</p>
+
+        <form id="formLogin">
+            <label for="correo">Correo electrónico</label>
+            <input id="correo" type="email" required autocomplete="username">
+
+            <label for="contrasena">Contraseña</label>
+            <input id="contrasena" type="password"
+                   required autocomplete="current-password">
+
+            <button type="submit">Iniciar sesión</button>
+            <div id="mensaje" role="status"></div>
+        </form>
+    </main>
+
+    <script type="module" src="js/login.js"></script>
+</body>
+</html>

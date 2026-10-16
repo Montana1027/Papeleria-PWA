@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    
+<head>
+    
+<script>
+    (function () {
+        if (localStorage.getItem("modoOscuro") === "true") {
+            document.documentElement.classList.add("modo-oscuro");
+        }
+    })();
+</script>
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario | Mi Papelería</title>
+    <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#7C3AED">
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">P</div>
+            <div>
+                <h2>Mi Papelería</h2>
+                <p>Panel de administración</p>
+            </div>
+        </div>
+
+        <p class="menu-titulo">MENÚ PRINCIPAL</p>
+
+        <nav class="menu">
+            <a href="../index.html"><span class="menu-icon">⌂</span> Inicio</a>
+            <a href="inventario.html" class="activo"><span class="menu-icon">▤</span> Inventario</a>
+            <a href="ventas.html"><span class="menu-icon">＋</span> Registrar venta</a>
+            <a href="faltantes.html"><span class="menu-icon">⚠</span> Productos faltantes</a>
+            <a href="historial.html"><span class="menu-icon">◷</span> Historial de ventas</a>
+            <a href="reportes.html"><span class="menu-icon">▥</span> Reportes</a>
+        </nav>
+
+        <div class="sidebar-pie">
+            <strong>Mi Papelería</strong>
+            <p>Administra tus productos y mantén tu negocio organizado.</p>
+        </div>
+    </aside>
+
+    <main class="contenido">
+        <header class="encabezado">
+            <div>
+                <button class="menu-movil" aria-label="Abrir menú">☰</button>
+                <h1 style="margin-top:10px;">Inventario 📦</h1>
+                <p>Consulta y organiza todos los productos de tu papelería.</p>
+            </div>
+
+            <div class="encabezado-derecha">
+                <div class="fecha"></div>
+                <button class="boton-tema" id="botonTema" type="button"
+                    aria-label="Cambiar tema" title="Cambiar modo claro u oscuro">🌙</button>
+            </div>
+        </header>
+
+        <section class="tarjetas">
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Productos</span>
+                    <div class="tarjeta-icono">▤</div>
+                </div>
+                <h2 id="totalProductos">0</h2>
+                <small>Total de productos registrados</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Disponibles</span>
+                    <div class="tarjeta-icono">✓</div>
+                </div>
+                <h2 id="productosDisponibles">0</h2>
+                <small>Con existencias suficientes</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Stock bajo</span>
+                    <div class="tarjeta-icono">⚠</div>
+                </div>
+                <h2 id="productosBajos">0</h2>
+                <small>Necesitan reabastecimiento</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Agotados</span>
+                    <div class="tarjeta-icono">!</div>
+                </div>
+                <h2 id="productosAgotados">0</h2>
+                <small>Sin existencias</small>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="panel-encabezado">
+                <div>
+                    <h2>Lista de productos</h2>
+                    <p>Consulta el precio y las existencias de cada artículo.</p>
+                </div>
+
+                <button class="btn btn-morado" id="agregarProducto" type="button">
+                    ＋ Agregar producto
+                </button>
+            </div>
+
+            <div class="barra-herramientas">
+                <div class="campo-busqueda">
+                    <input type="search" id="buscarProducto"
+                        placeholder="🔍 Buscar producto...">
+                </div>
+
+                <select id="categoriaFiltro" aria-label="Filtrar por categoría">
+                    <option value="">Todas las categorías</option>
+                    <option value="Escritura">Escritura</option>
+                    <option value="Cuadernos">Cuadernos</option>
+                    <option value="Papel">Papel</option>
+                    <option value="Manualidades">Manualidades</option>
+                    <option value="Oficina">Oficina</option>
+                </select>
+
+                <select id="estadoFiltro" aria-label="Filtrar por existencias">
+                    <option value="">Todos los estados</option>
+                    <option value="Disponible">Disponible</option>
+                    <option value="Stock bajo">Stock bajo</option>
+                    <option value="Agotado">Agotado</option>
+                </select>
+            </div>
+
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Existencias</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaProductos">
+                        <tr>
+                            <td colspan="6">Cargando productos...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr class="separador">
+
+            <p class="texto-gris" id="totalMostrados"
+                style="font-size:12px;">
+                Cargando productos...
+            </p>
+        </section>
+
+        <p class="texto-gris"
+            style="text-align:center;font-size:12px;padding:15px;">
+            Mi Papelería · Inventario
+        </p>
+    </main>
+</div>
+
+<script src="../js/navegacion.js"></script>
+<script type="module" src="../js/proteger.js"></script>
+<script type="module" src="../js/inventario.js"></script>
+</body>
+
+
+<body>
+
+</html>

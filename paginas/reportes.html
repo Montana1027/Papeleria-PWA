@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    
+<head>
+    
+<script>
+    (function () {
+        if (localStorage.getItem("modoOscuro") === "true") {
+            document.documentElement.classList.add("modo-oscuro");
+        }
+    })();
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes | Mi Papelería</title>
+    <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#7C3AED">
+    <link rel="stylesheet" href="../css/estilos.css">
+
+    <style>
+        .grafica-barras {
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            gap: 10px;
+            height: 240px;
+            padding: 20px 5px 0;
+            border-bottom: 1px solid var(--borde);
+        }
+
+        .barra-columna {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: end;
+            gap: 9px;
+            height: 100%;
+        }
+
+        .barra {
+            width: min(44px, 75%);
+            min-height: 3px;
+            background: linear-gradient(180deg, #A78BFA, #6D28D9);
+            border-radius: 8px 8px 2px 2px;
+        }
+
+        .barra-columna span,
+        .barra-columna strong {
+            font-size: 11px;
+            text-align: center;
+            overflow-wrap: anywhere;
+        }
+
+        .barra-columna span {
+            color: var(--gris);
+        }
+
+        .reporte-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(260px, 1fr);
+            gap: 22px;
+        }
+
+        .categoria-fila {
+            margin-bottom: 22px;
+        }
+
+        .categoria-info {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        .progreso {
+            width: 100%;
+            height: 9px;
+            background: var(--morado-claro);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progreso div {
+            height: 100%;
+            background: var(--morado);
+            border-radius: 20px;
+        }
+
+        .mensaje-reporte {
+            text-align: center;
+            padding: 20px;
+            color: var(--gris);
+        }
+
+        @media (max-width: 900px) {
+            .reporte-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            .sidebar, .menu-movil, .boton-tema,
+            .barra-herramientas button {
+                display: none !important;
+            }
+
+            .app {
+                display: block !important;
+            }
+
+            .contenido {
+                width: 100% !important;
+                padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">P</div>
+            <div><h2>Mi Papelería</h2><p>Panel de administración</p></div>
+        </div>
+
+        <p class="menu-titulo">MENÚ PRINCIPAL</p>
+
+        <nav class="menu">
+            <a href="../index.html"><span class="menu-icon">⌂</span> Inicio</a>
+            <a href="inventario.html"><span class="menu-icon">▤</span> Inventario</a>
+            <a href="ventas.html"><span class="menu-icon">＋</span> Registrar venta</a>
+            <a href="faltantes.html"><span class="menu-icon">⚠</span> Productos faltantes</a>
+            <a href="historial.html"><span class="menu-icon">◷</span> Historial de ventas</a>
+            <a href="reportes.html" class="activo"><span class="menu-icon">▥</span> Reportes</a>
+        </nav>
+
+        <div class="sidebar-pie">
+            <strong>Mi Papelería</strong>
+            <p>Administra tus productos y mantén tu negocio organizado.</p>
+        </div>
+    </aside>
+
+    <main class="contenido">
+        <header class="encabezado">
+            <div>
+                <button class="menu-movil" aria-label="Abrir menú">☰</button>
+                <h1 style="margin-top:10px;">Reportes 📊</h1>
+                <p>Consulta el rendimiento y los movimientos de tu papelería.</p>
+            </div>
+
+            <div class="encabezado-derecha">
+                <div class="fecha"></div>
+                <button class="boton-tema" id="botonTema" type="button"
+                    aria-label="Cambiar tema">🌙</button>
+            </div>
+        </header>
+
+        <section class="panel">
+            <div class="panel-encabezado">
+                <div>
+                    <h2>Periodo del reporte</h2>
+                    <p>Selecciona las fechas que deseas consultar.</p>
+                </div>
+                <button class="btn btn-borde" type="button"
+                    onclick="window.print()">⤓ Imprimir reporte</button>
+            </div>
+
+            <div class="barra-herramientas">
+                <div class="form-grupo">
+                    <label for="desde">Desde</label>
+                    <input type="date" id="desde">
+                </div>
+
+                <div class="form-grupo">
+                    <label for="hasta">Hasta</label>
+                    <input type="date" id="hasta">
+                </div>
+
+                
+<button id="descargarReporte" type="button">
+    Descargar reporte PDF
+</button>
+
+            </div>
+
+            <p id="estadoReporte" class="texto-gris" style="font-size:13px;"></p>
+        </section>
+
+        <section class="tarjetas">
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Ventas totales</span>
+                    <div class="tarjeta-icono">↗</div>
+                </div>
+                <h2 id="ventasTotales">$0.00</h2>
+                <small>Ingresos del periodo</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Operaciones</span>
+                    <div class="tarjeta-icono">▣</div>
+                </div>
+                <h2 id="operaciones">0</h2>
+                <small>Ventas registradas</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Ticket promedio</span>
+                    <div class="tarjeta-icono">$</div>
+                </div>
+                <h2 id="ticketPromedio">$0.00</h2>
+                <small>Importe promedio por venta</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Producto destacado</span>
+                    <div class="tarjeta-icono">★</div>
+                </div>
+                <h2 id="productoDestacado" style="font-size:20px;">—</h2>
+                <small id="unidadesDestacadas">0 unidades vendidas</small>
+            </article>
+        </section>
+
+        <div class="reporte-grid">
+            <section class="panel">
+                <div class="panel-encabezado">
+                    <div>
+                        <h2>Ventas por día</h2>
+                        <p>Ingresos diarios de los últimos siete días del periodo.</p>
+                    </div>
+                </div>
+
+                <div class="grafica-barras" id="graficaVentas">
+                    <p class="mensaje-reporte">Cargando ventas...</p>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-encabezado">
+                    <div>
+                        <h2>Ventas por categoría</h2>
+                        <p>Participación de cada categoría en los ingresos.</p>
+                    </div>
+                </div>
+
+                <div id="categoriasGrafica">
+                    <p class="mensaje-reporte">Cargando categorías...</p>
+                </div>
+            </section>
+        </div>
+
+        <section class="panel">
+            <div class="panel-encabezado">
+                <div>
+                    <h2>Resumen por categoría</h2>
+                    <p>Unidades vendidas e ingresos reales del periodo.</p>
+                </div>
+            </div>
+
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Unidades vendidas</th>
+                            <th>Ingresos</th>
+                            <th>Participación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCategorias">
+                        <tr>
+                            <td colspan="4" class="mensaje-reporte">
+                                Cargando información...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <p class="texto-gris" style="text-align:center;font-size:12px;padding:15px;">
+            Mi Papelería · Reportes
+        </p>
+    </main>
+</div>
+
+<script src="../js/navegacion.js"></script>
+<script type="module" src="../js/proteger.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script type="module" src="../js/reportes.js"></script>
+
+
+</body>
+
+
+<body>
+
+</html>
+```

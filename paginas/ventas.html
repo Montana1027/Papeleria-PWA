@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    
+<head>
+    
+<script>
+    (function () {
+        if (localStorage.getItem("modoOscuro") === "true") {
+            document.documentElement.classList.add("modo-oscuro");
+        }
+    })();
+</script>
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar venta | Mi Papelería</title>
+    <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#7C3AED">
+    <link rel="stylesheet" href="../css/estilos.css">
+
+    <style>
+        .ventas-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+            gap: 22px;
+            align-items: start;
+        }
+
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .producto-card {
+            border: 1px solid var(--borde);
+            background: var(--blanco);
+            border-radius: 13px;
+            padding: 17px;
+            transition: .2s;
+        }
+
+        .producto-card:hover {
+            border-color: var(--morado);
+            transform: translateY(-2px);
+        }
+
+        .producto-emoji {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            font-size: 24px;
+            background: var(--morado-claro);
+            margin-bottom: 13px;
+        }
+
+        .producto-card h3 {
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .producto-card p {
+            color: var(--gris);
+            font-size: 12px;
+            margin-bottom: 13px;
+        }
+
+        .producto-precio {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .producto-precio strong {
+            color: var(--morado);
+            font-size: 16px;
+        }
+
+        .carrito-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--borde);
+            font-size: 13px;
+        }
+
+        .carrito-item p {
+            color: var(--gris);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .carrito-controles {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .carrito-controles button {
+            border: 1px solid var(--borde);
+            background: var(--blanco);
+            border-radius: 6px;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            color: var(--morado);
+            font-weight: bold;
+        }
+
+        .carrito-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin: 18px 0;
+        }
+
+        .carrito-total strong {
+            font-size: 24px;
+            color: var(--morado);
+        }
+
+        .estado-venta {
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: var(--morado-claro);
+            color: var(--morado-oscuro);
+            font-size: 12px;
+        }
+
+        .mensaje-ventas {
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .mensaje-ventas.visible {
+            display: block;
+        }
+
+        .mensaje-ventas.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .mensaje-ventas.exito {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .carrito-vacio {
+            text-align: center;
+            padding: 24px 10px;
+            background: var(--morado-claro);
+            border-radius: 12px;
+        }
+
+        .carrito-vacio .emoji {
+            font-size: 32px;
+        }
+
+        .carrito-vacio p {
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 1000px) {
+            .ventas-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .productos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">P</div>
+            <div>
+                <h2>Mi Papelería</h2>
+                <p>Panel de administración</p>
+            </div>
+        </div>
+
+        <p class="menu-titulo">MENÚ PRINCIPAL</p>
+
+        <nav class="menu">
+            <a href="../index.html"><span class="menu-icon">⌂</span> Inicio</a>
+            <a href="inventario.html"><span class="menu-icon">▤</span> Inventario</a>
+            <a href="ventas.html" class="activo"><span class="menu-icon">＋</span> Registrar venta</a>
+            <a href="faltantes.html"><span class="menu-icon">⚠</span> Productos faltantes</a>
+            <a href="historial.html"><span class="menu-icon">◷</span> Historial de ventas</a>
+            <a href="reportes.html"><span class="menu-icon">▥</span> Reportes</a>
+        </nav>
+
+        <div class="sidebar-pie">
+            <strong>Mi Papelería</strong>
+            <p>Administra tus productos y mantén tu negocio organizado.</p>
+        </div>
+    </aside>
+
+    <main class="contenido">
+
+        <header class="encabezado">
+            <div>
+                <button class="menu-movil" aria-label="Abrir menú">☰</button>
+                <h1 style="margin-top:10px;">Registrar venta 🛒</h1>
+                <p>Selecciona los productos para preparar una venta.</p>
+            </div>
+
+            <div class="encabezado-derecha">
+                <div class="fecha"></div>
+                <button class="boton-tema" id="botonTema" type="button"
+                    aria-label="Cambiar tema" title="Cambiar tema">🌙</button>
+            </div>
+        </header>
+
+        <div class="ventas-layout">
+
+            <section class="panel">
+                <div class="panel-encabezado">
+                    <div>
+                        <h2>Productos disponibles</h2>
+                        <p>Selecciona los artículos que llevará el cliente.</p>
+                    </div>
+                </div>
+
+                <div class="barra-herramientas">
+                    <div class="campo-busqueda">
+                        <input id="buscarProducto" type="search"
+                            placeholder="🔍 Buscar por nombre o código...">
+                    </div>
+
+                    <select id="categoriaFiltro" aria-label="Categoría">
+                        <option value="">Todas las categorías</option>
+                        <option value="Escritura">Escritura</option>
+                        <option value="Cuadernos">Cuadernos</option>
+                        <option value="Papel">Papel</option>
+                        <option value="Manualidades">Manualidades</option>
+                        <option value="Oficina">Oficina</option>
+                    </select>
+                </div>
+
+                <div id="estadoProductos" class="texto-gris"
+                    style="padding:12px 0;font-size:13px;">
+                    Cargando productos...
+                </div>
+
+                <div class="productos-grid" id="productosGrid"></div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-encabezado">
+                    <div>
+                        <h2>Resumen de venta</h2>
+                        <p>Detalle del cobro al cliente.</p>
+                    </div>
+                    <span class="estado-venta" id="estadoVenta">Borrador</span>
+                </div>
+
+                <div id="carrito"></div>
+
+                <div class="carrito-total">
+                    <span>Subtotal</span>
+                    <strong id="subtotal">$0.00</strong>
+                </div>
+
+                <div class="carrito-item">
+                    <span>Descuento</span>
+                    <span>$0.00</span>
+                </div>
+
+                <div class="carrito-total">
+                    <span>Total a pagar</span>
+                    <strong id="total">$0.00</strong>
+                </div>
+
+                <hr class="separador">
+
+                <div class="form-grupo">
+                    <label for="metodoPago">Método de pago</label>
+                    <select id="metodoPago">
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="Transferencia">Transferencia</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo" style="margin-top:16px;">
+                    <label for="recibido">Cantidad recibida</label>
+                    <input id="recibido" type="number" min="0" step="0.01"
+                        placeholder="$0.00">
+                </div>
+
+                <div class="carrito-item">
+                    <span>Cambio</span>
+                    <strong id="cambio">$0.00</strong>
+                </div>
+
+                <button class="btn btn-morado" id="registrarVenta"
+                    type="button" style="width:100%;margin-top:16px;" disabled>
+                    ✓ Registrar venta
+                </button>
+
+                <button class="btn btn-claro" id="vaciarCarrito"
+                    type="button" style="width:100%;margin-top:10px;">
+                    Vaciar carrito
+                </button>
+
+                <div id="mensajeVentas" class="mensaje-ventas" role="status"></div>
+            </section>
+        </div>
+
+        <p class="texto-gris" style="text-align:center;font-size:12px;padding:15px;">
+            Mi Papelería · Registro de ventas
+        </p>
+    </main>
+</div>
+
+<script src="../js/navegacion.js"></script>
+<script type="module" src="../js/proteger.js"></script>
+<script type="module" src="../js/ventas.js"></script>
+</body>
+
+
+<body>
+
+</html>
+

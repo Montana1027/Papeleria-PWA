@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  
+<head>
+    
+<script>
+    (function () {
+        if (localStorage.getItem("modoOscuro") === "true") {
+            document.documentElement.classList.add("modo-oscuro");
+        }
+    })();
+</script>
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | Mi Papelería</title>
+    <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#7C3AED">
+<link rel="icon" type="image/png" href="./iconos/icon-192.png">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">P</div>
+            <div>
+                <h2>Mi Papelería</h2>
+                <p>Panel de administración</p>
+            </div>
+        </div>
+
+        <p class="menu-titulo">MENÚ PRINCIPAL</p>
+
+        <nav class="menu">
+            <a href="index.html" class="activo"><span class="menu-icon">⌂</span> Inicio</a>
+            <a href="paginas/inventario.html"><span class="menu-icon">▤</span> Inventario</a>
+            <a href="paginas/ventas.html"><span class="menu-icon">＋</span> Registrar venta</a>
+            <a href="paginas/faltantes.html"><span class="menu-icon">⚠</span> Productos faltantes</a>
+            <a href="paginas/historial.html"><span class="menu-icon">◷</span> Historial de ventas</a>
+            <a href="paginas/reportes.html"><span class="menu-icon">▥</span> Reportes</a>
+        </nav>
+
+        <div class="sidebar-pie">
+            <strong>Mi Papelería</strong>
+            <p>Administra tus productos y mantén tu negocio organizado.</p>
+        </div>
+    </aside>
+
+    <main class="contenido">
+        <header class="encabezado">
+            <div>
+                <button class="menu-movil" aria-label="Abrir menú">☰</button>
+                <h1 style="margin-top:10px;">¡Hola! Bienvenido 👋</h1>
+                <p>Este es el resumen general de tu papelería.</p>
+            </div>
+
+            <div class="encabezado-derecha">
+                <div class="fecha"></div>
+                <button class="boton-tema" id="botonTema" type="button"
+                    aria-label="Cambiar tema" title="Cambiar modo claro u oscuro">🌙</button>
+            </div>
+        </header>
+
+        <section class="tarjetas">
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Productos registrados</span>
+                    <div class="tarjeta-icono">▤</div>
+                </div>
+                <h2 id="totalProductos">0</h2>
+                <small>Productos en el inventario</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Ventas de hoy</span>
+                    <div class="tarjeta-icono">↗</div>
+                </div>
+                <h2 id="ventasHoy">$0.00</h2>
+                <small>Ingresos del día</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Ventas realizadas</span>
+                    <div class="tarjeta-icono">▣</div>
+                </div>
+                <h2 id="operacionesHoy">0</h2>
+                <small>Operaciones del día</small>
+            </article>
+
+            <article class="tarjeta">
+                <div class="tarjeta-superior">
+                    <span class="tarjeta-etiqueta">Por reabastecer</span>
+                    <div class="tarjeta-icono">⚠</div>
+                </div>
+                <h2 id="productosBajos">0</h2>
+                <small>Productos con 5 piezas o menos</small>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="panel-encabezado">
+                <div>
+                    <h2>Ventas recientes</h2>
+                    <p>Últimos movimientos registrados.</p>
+                </div>
+                <a href="paginas/historial.html" class="btn btn-claro">Ver historial →</a>
+            </div>
+
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Fecha</th>
+                            <th>Productos</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaVentasRecientes">
+                        <tr><td colspan="5">Cargando ventas...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-encabezado">
+                <div>
+                    <h2>Productos por reabastecer</h2>
+                    <p>Productos que necesitan revisión.</p>
+                </div>
+                <a href="paginas/faltantes.html" class="btn btn-borde">Ver productos</a>
+            </div>
+
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th>Existencias</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaProductosBajos">
+                        <tr><td colspan="4">Cargando inventario...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <p class="texto-gris" style="text-align:center;font-size:12px;padding:15px;">
+            Mi Papelería · Panel de administración
+        </p>
+    </main>
+</div>
+
+<script src="js/navegacion.js"></script>
+<script type="module" src="js/proteger.js"></script>
+<script type="module" src="js/inicio.js"></script>
+</body>
+
+
+<body>
+
+</html>
